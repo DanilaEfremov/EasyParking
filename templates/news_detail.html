@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+{% block title %}{{ news.name }}{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+    <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <article class="prose prose-stone dark:prose-neutral prose-p:indent-4 mx-auto bg-base-100 border border-base-content/25 shadow-lg rounded-2xl overflow-hidden p-6">
+            <h1>{{ news.name }}</h1>
+            <div>
+                <img src="{{ news.image.url }}"
+                     alt="{{ news.name }}"
+                     class="rounded-lg shadow-md w-full aspect-3/2 object-cover"
+                     onerror="this.onerror=null; this.src='{% static 'img/stub/news.webp' %}';"
+                >
+            </div>
+
+            {% autoescape off %}
+            {{ news.text }}
+            {% endautoescape %}
+
+            <div class="not-prose mt-6 flex justify-between items-center">
+                <span class="text-gray-500 text-sm">Дата публикации: {{ news.created_at|date:"d.m.Y H:i" }}</span>
+                <a href="{% url 'news' %}" class="btn btn-outline btn-primary">Назад к новостям</a>
+            </div>
+        </article>
+    </div>
+{% endblock content %}

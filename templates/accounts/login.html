@@ -1,0 +1,118 @@
+{% extends 'accounts/layout.html' %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block header %}
+    <c-header></c-header>
+{% endblock header %}
+
+
+{% block content %}
+    <div class="flex flex-col">
+        <!-- Login card -->
+        <fieldset class="fieldset w-96 p-6 my-10 bg-base-100 border border-base-300 rounded-box mx-auto">
+            <p class="text-4xl font-bold">ВХОД В СИСТЕМУ</p>
+            <p>Добро пожаловать обратно!</p>
+
+            <form method="post" action="{% url 'login' %}" class="mt-6 flex flex-col">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="bg-error text-error-content text-sm mb-2 p-2 rounded-md">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Username field -->
+                <!-- InputField label -->
+                <label for="{{ form.username.id_for_label }}">Логин</label>
+                <!-- InputField -->
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                    <!-- InputField Icon -->
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </g>
+                    </svg>
+                    <!-- InputField Self -->
+                    <input type="text"
+                           id="{{ form.username.id_for_label }}"
+                           name="{{ form.username.html_name }}"
+                           required
+                           placeholder="Username"
+                           pattern="[A-Za-z][A-Za-z0-9\-]*"
+                           minlength="3"
+                           maxlength="30"
+                           title="Only letters, numbers or dash"
+                           value="{{ form.username.value|default:'' }}"
+                           class="w-full">
+                </label>
+                <!-- Browser validation error message  -->
+                <p class="validator-hint hidden">
+                    Must be 3 to 30 characters
+                    <br />Containing only letters, numbers, or dash
+                </p>
+                <!-- Server-side validation error message -->
+                {% if form.username.errors %}
+                    <p class="validator-hint text-error text-sm">
+                        {{ form.username.errors|striptags }}
+                    </p>
+                {% endif %}
+                <!-- /Username field -->
+
+                <!-- Password field -->
+                <label for="{{ form.password.id_for_label }}">Пароль</label>
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-3">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+                            <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                        </g>
+                    </svg>
+                    <input type="password"
+                           id="{{ form.password.id_for_label }}"
+                           name="{{ form.password.html_name }}"
+                           required
+                           placeholder="Password"
+                           minlength="8"
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            {#                        pattern="*"#}
+                           title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                           class="w-full">
+                </label>
+                <p class="validator-hint hidden">
+                    Must be more than 8 characters, including
+                    <br />At least one number
+                    <br />At least one lowercase letter
+                    <br />At least one uppercase letter
+                </p>
+                {% if form.password.errors %}
+                    <p class="validator-hint text-error text-sm">
+                        {{ form.password.errors|striptags }}
+                    </p>
+                {% endif %}
+
+                <!-- Submit button -->
+                <button class="btn btn-primary mt-6" type="submit">Войти</button>
+            </form>
+
+            <p class="text-center mt-4">
+                Нет аккаунта?
+                <a href="{% url 'register' %}" class="text-primary">Зарегистрироваться сейчас</a>
+            </p>
+        </fieldset>
+        <!-- /Login Card -->
+    </div>
+
+
+
+{% endblock content %}
+
+
+{% block footer %}
+    <c-footer class="fixed inset-x-0 bottom-0"/>
+{% endblock footer %}

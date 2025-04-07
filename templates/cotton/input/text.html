@@ -1,0 +1,61 @@
+<c-vars id leading_icon validation_errorerrors/>
+
+<!-- InputField label -->
+<label for="{{ id }}">Логин</label>
+<!-- InputField -->
+<label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+    {% if leading_icon %}{{ leading_icon }}{% endif %}
+    <!-- InputField Self -->
+    <input type="text" id="{{ id }}" {{ attrs }} >
+</label>
+<!-- Browser validation error message  -->
+{% if validation_errors %}
+    <p class="validator-hint hidden">
+        Must be 3 to 30 characters
+        <br />Containing only letters, numbers, or dash
+    </p>
+{% endif %}
+<!-- Server-side validation error message -->
+{% if errors %}
+    <div class="text-red-500 text-sm mt-1">{{ errors.as_text }}</div>
+{% endif %}
+
+
+
+<!-- Username field -->
+            <!-- InputField label -->
+            <label for="{{ form.username.id_for_label }}">Логин</label>
+            <!-- InputField -->
+            <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                <!-- InputField Icon -->
+                <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </g>
+                </svg>
+                <!-- InputField Self -->
+                <input type="text"
+                       id="{{ form.username.id_for_label }}"
+                       name="{{ form.username.html_name }}"
+                       required
+                       placeholder="Username"
+                       pattern="[A-Za-z][A-Za-z0-9\-]*"
+                       minlength="3"
+                       maxlength="30"
+                       title="Only letters, numbers or dash"
+                       value="{{ form.username.value|default:'' }}"
+                       class="w-full">
+            </label>
+            <!-- Browser validation error message  -->
+            <p class="validator-hint hidden">
+                Must be 3 to 30 characters
+                <br />Containing only letters, numbers, or dash
+            </p>
+            <!-- Server-side validation error message -->
+            {% if form.username.errors %}
+                <p class="validator-hint text-error text-sm">
+                    {{ form.username.errors|striptags }}
+                </p>
+            {% endif %}
+            <!-- /Username field -->

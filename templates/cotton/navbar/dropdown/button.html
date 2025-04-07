@@ -1,0 +1,15 @@
+<div class="dropdown dropdown-end">
+    <!-- Вид кнопки -->
+    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <!-- Содержимое кнопки -->
+        <div class="indicator">
+            {{ icon }}
+            {{ badge }}
+        </div>
+    </div>
+    <!-- Выпадающее окно -->
+    <div tabindex="0" class="dropdown-content card card-compact bg-base-100 z-1 mt-3 w-[350px] shadow">
+        <!-- Содержание окна -->
+        {{ slot }}
+    </div>
+</div>

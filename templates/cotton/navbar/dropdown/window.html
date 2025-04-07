@@ -1,0 +1,13 @@
+{% load app_tags %}
+
+<div id="cart-menu" class="card-body" {{ attrs }}>
+    {% if items_count > 0 %}
+        <span class="text-lg font-bold">{{ items_count }} {{ items_count|ru_plural:"товар,товара,товаров" }}</span>
+        <span class="text-info">Итого: ₽{{ total_price | add:delivery | floatformat:0 }}</span>
+    {% else %}
+        <span class="text-lg font-bold">Корзина пуста</span>
+    {% endif %}
+    <div class="card-actions">
+        <a role="button" href="{% url 'cart' %}" class="btn btn-primary btn-block">Корзина</a>
+    </div>
+</div>

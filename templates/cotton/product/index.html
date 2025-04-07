@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="flex flex-col bg-base-100 border border-base-300">
+    <figure class="relative flex">
+        <img class="w-full aspect-3/2 object-cover" src="{{ product.image.url }}" alt="{{ product.name }}"
+             onerror="this.onerror=null; this.src='{% static 'img/stub/shopping.webp' %}';"/>
+        <div class="absolute flex h-full w-full items-center justify-center gap-3 opacity-0 duration-150 hover:opacity-100">
+            <a href="{% url 'product_detail'  product.id %}" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                </svg>
+            </a>
+        </div>
+    </figure>
+    <div>
+        <div class="p-3">
+            <p class="uppercase text-base-content/80">{{ product.name }}</p>
+            <p class="text-base-content/60">{{ product.description | truncatechars:30 }}</p>
+            <p class="font-medium text-primary">₽{{ product.price | floatformat:0 }}</p>
+        </div>
+        {% if product.stock != 0 %}
+        <a class="btn btn-primary rounded-none w-full mt-2" href="{% url 'add_to_cart' product.id %}">В корзину</a>
+        {% else %}
+        <button class="btn btn-disabled rounded-none w-full mt-2">Нет в наличии</button>
+        {% endif %}
+    </div>
+</div>

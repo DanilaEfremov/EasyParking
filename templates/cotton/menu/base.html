@@ -1,0 +1,20 @@
+<nav class="relative bg-neutral text-neutral-content">
+    <div class="navbar mx-auto hidden h-12 w-full max-w-[1200px] items-center md:flex">
+        <!-- <div class="flex-1">
+          <a class="btn btn-ghost text-xl">daisyUI</a>
+        </div> -->
+        <div class="navbar-start">
+            <div class="flex ml-4 gap-6">
+                <c-menu.item class_attrs="ml-auto" url="{% url 'home' %}">Главная</c-menu.item>
+                <c-menu.item class_attrs="ml-auto" url="{% url 'products' %}">Каталог</c-menu.item>
+                <c-menu.item class_attrs="ml-auto" url="{% url 'news' %}">Новости</c-menu.item>
+                <c-menu.item class_attrs="ml-auto" url="{% url 'about' %}">О нас</c-menu.item>
+                <c-menu.item class_attrs="ml-auto" url="{% url 'contacts' %}">Контакты</c-menu.item>
+            </div>
+        </div>
+
+       <div class="navbar-end">
+           {{ slot }}
+       </div>
+    </div>
+</nav>

@@ -1,0 +1,55 @@
+{% load static %}
+
+<div id="page_news" class="container mx-auto p-6 mb-6">
+    <h1 class="text-4xl font-bold text-center text-base-content my-5">Новости</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        {% for item in page_obj %}
+            <c-news.card_short :article="item"/>
+        {% endfor %}
+    </div>
+
+    <section class="pagination flex justify-center" hx-target="#page_news" hx-boost="true" hx-swap="outerHTML">
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="flex justify-center mt-8">
+                <div class="join">
+                    {% if page_obj.has_previous %}
+                        <div class="tooltip tooltip-left" data-tip="Первая страница">
+                            <a class="join-item btn px-1" href="?page=1">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 16-4-4 4-4m-6 8-4-4 4-4"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="tooltip" data-tip="Предыдущая страница">
+                            <a class="join-item btn px-1" href="?page={{ page_obj.previous_page_number }}">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 8-4 4 4 4"/>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <button class="join-item btn">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</button>
+
+                    {% if page_obj.has_next %}
+                        <div class="tooltip" data-tip="Следующая страница">
+                            <a class="join-item btn px-1" href="?page={{ page_obj.next_page_number }}">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="tooltip tooltip-right" data-tip="Последняя страница">
+                            <a class="join-item btn px-1" href="?page={{ page_obj.paginator.num_pages }}">
+                                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+</div>

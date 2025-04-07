@@ -1,0 +1,5 @@
+{% for item in products %}
+    <c-product :product="item"/>
+{% empty %}
+    <p class="text-xl font-semibold text-base-content/80">Товаров не найдено</p>
+{% endfor %}

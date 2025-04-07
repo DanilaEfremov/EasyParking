@@ -1,0 +1,16 @@
+{% load static %}
+
+<!-- Товар -->
+<div class="flex items-center gap-3">
+    <img class="w-[90px] aspect-3/2 object-cover"
+         src="{{ product.image.url }}"
+         alt="Product Image"
+        onerror="this.onerror=null; this.src='{% static 'img/stub/shopping.webp' %}';"
+    />
+    <div>
+        <div class="font-bold uppercase" >
+            <a href="{% url 'product_detail'  product.id quantity %}">{{ product.name }}</a>
+        </div>
+        <p class="text-sm text-gray-400">{{ product.description | truncatechars:30 }}</p>
+    </div>
+</div>

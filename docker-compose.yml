@@ -1,0 +1,222 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./app_conf/Dockerfile
+      args:
+        BUILD_MOD: ${BUILD}
+        APP_ROOT: /app
+    container_name: web
+    volumes:
+#      - .:/app
+      - static:/app/static
+      - ./logs:/app/logs
+    expose:
+      - "8000"
+    depends_on:
+      - db
+      - minio
+      - redis
+    env_file:
+      - .env
+
+
+  minio:
+    hostname: ${S3_HOST}
+    restart: unless-stopped
+    image: minio/minio
+    container_name: minio
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+#    ports:
+#      - "${MINIO_PORT}:9000"  # API
+#      - "9001:9001"           # Web UI
+    expose:
+      - "9000"  # API
+      - "9001"  # Web UI
+    env_file:
+      - .env
+#    healthcheck:
+#      test: [ "CMD", "mc", "ls", "django_minio" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+
+
+#  createbuckets:
+#    image: minio/mc
+#    depends_on:
+#      - minio
+#    entrypoint: >
+#      /bin/sh -c "
+#      mc alias set django_minio http://${S3_HOST}:${MINIO_PORT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+#      mc mb --ignore-existing django_minio/media;
+#      mc anonymous set public django_minio/media;
+#      exit 0;
+#      "
+#    env_file:
+#      - .env
+
+
+  db:
+    hostname: ${DB_HOST}
+    restart: unless-stopped
+    image: postgres:17.4-alpine3.21
+    container_name: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      LANG: ${LANGUAGE}.UTF-8
+      LANGUAGE: ${LANGUAGE}.UTF-8
+#      TZ: ${TZ}
+    expose:
+      - "5432"
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1'
+#          memory: 1G
+
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:9.1
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    expose:
+      - '80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+
+  rabbitmq:
+    hostname: ${RABBITMQ_HOST}
+    restart: unless-stopped
+    image: "rabbitmq:3-management-alpine"
+    container_name: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    expose:
+      - "5672"     # API
+      - "15672"  # Интерфейс управления RabbitMQ
+    env_file:
+      - .env
+
+
+  celery:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./app_conf/Dockerfile
+    container_name: celery_worker
+    command: celery -A a_core worker --loglevel=info
+    depends_on:
+      - rabbitmq
+      - web
+    env_file:
+      - .env
+
+
+  celery-beat:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./app_conf/Dockerfile
+    container_name: celery_beat
+    command: celery -A a_core beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on:
+      - rabbitmq
+      - web
+      - celery
+    volumes:
+      - ./celerybeat-schedule:/app/celerybeat-schedule
+    env_file:
+      - .env
+
+
+  flower:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./app_conf/Dockerfile
+    container_name: flower
+    hostname: flower
+    command: celery -A a_core flower --port=5555
+    depends_on:
+      - rabbitmq
+      - celery
+      - celery-beat
+    expose:
+      - "5555"
+    env_file:
+      - .env
+
+
+  redis:
+    hostname: ${CACHE_REDIS_HOST}
+    restart: unless-stopped
+#    image: redis:7.4-alpine3.21
+    image: valkey/valkey:8.1.0-alpine3.21
+    container_name: redis
+    expose:
+      - 6379
+    env_file:
+      - .env
+    volumes:
+      - redis_data:/data
+    tty: true
+    stdin_open: true
+
+
+
+
+  angie:
+    container_name: http
+    hostname: http
+    restart: unless-stopped
+    image: docker.angie.software/angie:latest
+    volumes:
+      - ./app_conf/angie/angie.conf:/etc/angie/angie.conf:ro
+#      - ./htpasswd:/etc/angie/.htpasswd
+      - static:/usr/share/angie/static
+    post_start:
+      - command: [ "sh", "-c", "chown angie /usr/share/angie/static && chmod -R 755 /usr/share/angie/static" ]
+    ports:
+      - "80:80"
+#      - "8080:8080"
+    depends_on:
+      - web
+      - flower
+      - rabbitmq
+      - pgadmin
+      - minio
+    labels:
+      - dev.orbstack.domains=easyparking.local
+
+
+volumes:
+  postgres_data:
+  pgadmin-data:
+  static:
+#  media:
+  minio_data:
+  rabbitmq_data:
+  redis_data:

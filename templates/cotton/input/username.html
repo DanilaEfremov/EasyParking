@@ -1,0 +1,45 @@
+{#  Usage:                                                              #}
+{#  <c-input.username id="{{ form.username.id_for_label }}"             #}
+{#                    :errors = "form.username.errors"                  #}
+{#                    name="{{ form.username.html_name }}"              #}
+{#                    required                                          #}
+{#                    placeholder="Username"                            #}
+{#                    pattern="[A-Za-z][A-Za-z0-9\-]*"                  #}
+{#                    minlength="3"                                     #}
+{#                    maxlength="30"                                    #}
+{#                    title="Only letters, numbers or dash"             #}
+{#                    value="{{ form.username.value|default:'' }}">     #}
+{#      <c-slot name="validator-text">                                  #}
+{#          Must be 3 to 30 characters                                  #}
+{#          <br />Containing only letters, numbers, or dash             #}
+{#      </c-slot>                                                       #}
+{#  </c-input.username>                                                 #}
+
+
+<c-vars id, error />
+<!-- Username field -->
+<!-- InputField label -->
+<label for="{{ id }}">Логин</label>
+<!-- InputField -->
+<label class="input validator w-full has-[:user-invalid]:mb-0">
+    <!-- InputField Icon -->
+    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </g>
+    </svg>
+    <!-- InputField Self -->
+    <input type="text" id="{{ id }}" class="w-full" {{ attrs }}/>
+</label>
+<!-- Browser validation error message  -->
+<p class="validator-hint hidden">
+    {{ validator_text }}
+</p>
+<!-- Server-side validation error message -->
+{% if errors %}
+    <p class="validator-hint text-error text-sm">
+        {{ errors|striptags }}
+    </p>
+{% endif %}
+<!-- /Username field -->

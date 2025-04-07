@@ -1,0 +1,19 @@
+<c-vars button />
+
+<div role="alert"
+     class="alert {{ classes }} transition-opacity duration-500 ease-in-out starting:opacity-0 opacity-100"
+     _="on closeMe transition opacity to 0 over 500ms then wait 450ms then remove me"
+>
+    {{ icon }}
+    <span>{{ message }}</span>
+
+    {% if button %}
+        {{ button }}
+    {% else %}
+        <button class="btn btn-circle" _="on click send closeMe to closest <div/>"> <!--onclick="this.parentElement.style.display='none';"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 16 16">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m11.25 4.75l-6.5 6.5m0-6.5l6.5 6.5"/>
+            </svg>
+        </button>
+    {% endif %}
+</div>

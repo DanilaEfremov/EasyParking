@@ -1,0 +1,5 @@
+{% if messages %}
+    {% for message in messages %}
+        <c-component message = "{{ message|safe }}" is="alert.{{ message.tags }}" />
+    {% endfor %}
+{% endif %}

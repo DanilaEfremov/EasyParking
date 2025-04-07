@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+
+{% block title %}О нас{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+        <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    <div class="bg-base-200 flex items-center justify-center min-h-screen">
+    <div class="text-center max-w-2xl p-16 bg-base-100 rounded-2xl shadow-xl transform scale-105">
+        <h1 class="text-9xl font-extrabold text-error">404</h1>
+        <p class="text-3xl mt-6 text-base-content">Упс! Такой страницы не существует.</p>
+        <p class="text-lg mt-3 text-base-content/70">Проверь адрес или вернись на главную.</p>
+
+        <a href="/" class="btn btn-primary btn-lg mt-8">
+            На главную
+        </a>
+    </div>
+</div>
+
+{% endblock content %}
+

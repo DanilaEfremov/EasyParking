@@ -1,0 +1,17 @@
+<div class="flex items-center" hx-target="closest tr"  hx-swap="innerHTML">
+    <button class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 dark:hover:bg-neutral-500 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+            hx-patch="{% url 'item_decrement' item_id %}"
+            hx-trigger="click throttle:500ms"
+    >
+        &minus;
+    </button>
+    <div class="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500">
+        {{ quantity }}
+    </div>
+    <button class="flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 dark:hover:bg-neutral-500 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500"
+            hx-patch="{% url 'item_increment' item_id %}"
+            hx-trigger="click throttle:500ms"
+    >
+        &#43;
+    </button>
+</div>

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "./daisyui.js" {
+  themes: corporate --default, abyss --prefersdark;
+}
+
+/* Optional for custom themes – Docs: https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme */
+@plugin "./daisyui-theme.js"{
+  /* custom theme here */
+}
+
+:root, [data-theme] {
+  background-color: var(--root-bg, var(--color-base-200));
+  color: var(--color-base-content);
+}

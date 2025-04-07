@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Каталог{% endblock title %}
+
+
+
+{% block header %}
+    <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price">
+        <!-- Search form -->
+        <c-slot name="center_content">
+            <form method="get"
+                  action=""
+                  id="search"
+                  hx-boost="true"
+                  hx-include="#sort_by, #order"
+                  hx-trigger="input changed delay:500ms, keyup[key=='Enter'], doRequest"
+                  hx-target="#page_items"
+            >
+                <div>
+                    <label class="input">
+                        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.3-4.3"></path>
+                            </g>
+                        </svg>
+                        <input id="search_input" type="search" class="grow w-3xs" name="q" placeholder="Поиск товара"/>
+                    </label>
+                </div>
+            </form>
+        </c-slot>
+
+        <!-- Context menu -->
+        <c-slot name="context_menu">
+            <div class="flex items-center gap-3">
+                <select id="sort_by"
+                        name="sort_by"
+                        class="select select-ghost text-right"
+                        _="on change send doRequest to #search"
+                >
+                    <option disabled selected value="name">Выбери метод:</option>
+                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>по названию</option>
+                    <option value="price" {% if sort_by == 'price' %}selected{% endif %}>по цене</option>
+                    <option value="created_at" {% if sort_by == 'created_at' %}selected{% endif %}>по дате добавления
+                    </option>
+                </select>
+                <label class="toggle text-base-content" _="on change send doRequest to #search">
+                    <input id="order" name="order" type="checkbox" value="desc">
+                    <svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                              d="M12 19V5m0 14-4-4m4 4 4-4"/>
+                    </svg>
+                    <svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                              d="M12 6v13m0-13 4 4m-4-4-4 4"
+                        />
+                    </svg>
+                </label>
+            </div>
+        </c-slot>
+    </c-header>
+{% endblock header %}
+
+
+{% block content %}
+    {% include 'partials/products.html' %}
+{% endblock %}

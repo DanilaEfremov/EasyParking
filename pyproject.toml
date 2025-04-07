@@ -1,0 +1,40 @@
+[project]
+name = "Easy-Parking"
+version = "0.2.0"
+description = "Parking equipment shop"
+requires-python = ">=3.12"
+dependencies = [
+    "django==5.1.8",
+
+    "django-phonenumber-field==8.0.0",
+    "django-phonenumbers==1.0.1",
+    "django-cotton==2.0.3",
+    "django-simple-history==3.8.0",
+    "django-daisy==1.0.18",
+    "django-structlog==9.1.1",
+    "django-storages==1.14.6",
+    "django-constance==4.3.2",
+    "django-appconf==1.1.0",
+    "django-cacheops==7.1",
+    "django-htmx>=1.23.0",
+
+    "celery[django,redis,librabbitmq]==5.5.0",
+    "sqlalchemy==2.0.20",
+    "flower==2.0.1",
+    "redis==5.2.1",
+
+    "django-celery-beat==2.7.0",
+
+    "pillow==11.2.0",
+    "psycopg[binary,pool]>=3.2.6",
+
+    "boto3==1.37.28",
+    "dotenv==0.9.9",
+
+    "gunicorn==23.0.0",
+]
+
+[dependency-groups]
+dev = [
+       "django-debug-toolbar==5.1.0",
+]

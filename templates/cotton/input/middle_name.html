@@ -1,0 +1,15 @@
+{#Usage:#}
+{#<c-input.middle_name id="{{ form.middle_name.id_for_label }}"#}
+{#                     name="{{ form.middle_name.html_name }}"#}
+{#                     value="{{ form.middle_name.value|default:'' }}"#}
+{#                     placeholder="Type here"#}
+{#                     :errors = "form.middle_name.errors"#}
+{#/>#}
+
+
+<!-- Middle Name -->
+<legend class="fieldset-legend">Отчество</legend>
+<input type="text" id="{{ id }}" class="input w-full" {{ attrs }}/>
+{% if form.middle_name.errors %}
+    <p class="validator-hint text-error text-sm">{{ form.middle_name.errors|striptags }}</p>
+{% endif %}
