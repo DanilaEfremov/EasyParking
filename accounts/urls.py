@@ -9,5 +9,5 @@ urlpatterns = [
     path('my/', views.account, name='account'),                 # Мой аккаунт
     path('my/account_personal_change/', views.account_personal_change, name='account_personal_change'),
     path('my/account_password_change/', views.account_password_change, name='account_password_change'),
-    path('my/account_adress_change/', views.account_adress_change, name='account_adress_change'),
+    path('my/account_adress_change/', views.account_address_change, name='account_address_change'),
 ]

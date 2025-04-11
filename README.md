@@ -5,21 +5,22 @@
 
 
 
-### Используемые технологии
-1. Django
-2. Postgres
-3. Nginx
+## Используемые технологии
+1. Django (https://djangoproject.com[](https://www.djangoproject.com))
+2. Postgres (https://www.postgresql.org[](https://www.postgresql.org))
+3. Angie (https://angie.software[](https://angie.software/))
+4. Celery (https://docs.celeryq.dev[](https://docs.celeryq.dev/en/stable/))
+5. Minio (https://m in.io[](https://min.io))
+6. Valkey (https://valkey.io[](https://valkey.io))
 
-### Используемые инструменты
+## Используемые инструменты
 Приложение разворачивается с помощью Docker-композера.
 Для симуляции одностраничного приложения был использован HTMX, который позволяет делать запросы без перезагрузки страницы.
-Также через HTMX отправлялись запросы в режиме реального времени с использованием WebSocket.
 
 ## Установка и запуск
-
 Для установки зависимостей и запуска проекта выполните следующие команды:
 
-```bash
+```sh
 # Клонировать проект из GitHub
 git clone https://github.com/danefremov/shopping.git
 
@@ -41,6 +42,7 @@ docker compose exec web python manage.py createsuperuser
 
 Настроить демоны автозапуска 
 
+Пароль flower:  htpasswd -c ./app_conf/angie/.htpasswd dan
 
 Чтобы без sudo жми sudo usermod -aG docker $USER
 

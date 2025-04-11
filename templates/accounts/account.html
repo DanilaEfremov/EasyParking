@@ -48,7 +48,7 @@
                             <a href="{% url 'account_personal_change' %}" class="text-gray-500 duration-100 hover:text-warning">
                                 Информация аккаунта
                             </a>
-                            <a href="{% url 'account_adress_change' %}" class="text-gray-500 duration-100 hover:text-warning">
+                            <a href="{% url 'account_address_change' %}" class="text-gray-500 duration-100 hover:text-warning">
                                 Управлять адресами
                             </a>
                             <a href="{% url 'account_password_change' %}" class="text-gray-500 duration-100 hover:text-warning">
@@ -99,7 +99,7 @@
                 <div class="border py-5 shadow-md">
                     <div class="flex justify-between px-4 pb-5">
                         <p class="font-bold">Адрес доставки</p>
-                        <a class="text-sm text-primary" href="{% url 'account_adress_change' %}">Править</a>
+                        <a class="text-sm text-primary" href="{% url 'account_address_change' %}">Править</a>
                     </div>
                     <div class="px-4">
                         <p>{{ user.first_name }} {{ user.last_name }}</p>

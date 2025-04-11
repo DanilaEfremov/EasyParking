@@ -5,8 +5,17 @@ LABEL authors="ove"
 ARG BUILD_MOD=dev
 ARG APP_ROOT=/app
 ARG APP_CONFIG=/app_conf
+ARG DJANGO_USER=myuser
+ARG DJANGO_GROUP=mygroup
+ARG DJANGO_USER_ID=2000
+ARG DJANGO_GROUP_ID=2001
+
+RUN echo "User is ${DJANGO_USER}:${DJANGO_USER} -> ${DJANGO_USER_ID}:${DJANGO_GROUP_ID}"
+
 ARG APP_START=/run_app_${BUILD_MOD}.sh
 ARG UV=${APP_ROOT}${APP_CONFIG}/uv_sync_${BUILD_MOD}.sh
+
+
 
 # Очень важная переменная окружения.
 # Если установлена, то uv считает, что по этому пути находится виртуальное окружение
@@ -32,8 +41,8 @@ ENV UV_PYTHON_DOWNLOADS=0
 WORKDIR ${APP_ROOT}
 COPY . ${APP_ROOT}
 
-RUN chmod +x ${UV} \
-    && chmod +x ${APP_ROOT}${APP_CONFIG}${APP_START}
+RUN chmod +x ${UV} && chmod +x ${APP_ROOT}${APP_CONFIG}${APP_START}
+
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
@@ -54,9 +63,26 @@ sh -c ${APP_ROOT}${APP_CONFIG}${APP_START}
 EOF
 RUN chmod +x ${APP_ROOT}${APP_CONFIG}/run.sh
 
+#RUN mkdir -p /app/logs/web
+
+RUN addgroup -g ${DJANGO_GROUP_ID} ${DJANGO_GROUP}
+#  \  &&  \
+RUN adduser ${DJANGO_USER} --uid ${DJANGO_USER_ID} -G ${DJANGO_GROUP} --home /home/${DJANGO_USER}/ --disabled-password
+
+#RUN mkdir -p /app/logs && \
+#    mkdir -p /app/static && \
+#RUN chown -R ${USER}:${GROUP} /app
+
+
+#RUN chmod -R 755 /app/static && \
+#    chmod -R 755 /app/logs
+
+#RUN chown -R myuser:myuser /app/logs
+
+#USER ${USER}
+
 
 EXPOSE 8000
-
 
 CMD ["/app/app_conf/run.sh"]
 #CMD ["/app/app_conf/run_app_dev.sh"]

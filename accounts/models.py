@@ -68,7 +68,7 @@ class Profile(models.Model):
     address = models.TextField(verbose_name="Адрес", blank=True)
     country = models.CharField(max_length=20, verbose_name="Страна", blank=True)
     city = models.CharField(max_length=20, verbose_name="Город", blank=True)
-    zip_code = models.CharField(max_length=10, verbose_name="Почтовый индекс", blank=True)
+    zip_code = models.CharField(max_length=6, verbose_name="Почтовый индекс", blank=True)
 
     GENDER_CHOICES = [
         ('M', 'Мужской'),

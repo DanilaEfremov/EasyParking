@@ -171,8 +171,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'a_core.validators.UppercasePasswordValidator',
+    },
 ]
 
+LOG_LEVEL = "INFO" if DEBUG else "WARNING"
 
 LOGGING = {
     "version": 1,
@@ -218,17 +222,16 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console", "flat_line_file", "json_file"],
-        "level": "INFO",
+        "level": LOG_LEVEL,
     },
     "loggers": {
         "django_structlog": {
             "handlers": ["console", "flat_line_file", "json_file"],
-            "level": "INFO",
+            "level": LOG_LEVEL,
         },
-        # Make sure to replace the following logger's name for yours
         "django_structlog_a_core": {
             "handlers": ["console", "flat_line_file", "json_file"],
-            "level": "INFO",
+            "level": LOG_LEVEL,
         },
     }
 }

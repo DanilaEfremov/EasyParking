@@ -69,7 +69,7 @@ class OrderForm(forms.ModelForm):
             }),
             "zip_code": forms.TextInput(attrs={
                 "class": "input validator tabular-nums w-full border px-4 py-2",
-                "pattern": r'^\\d{6}$',
+                "pattern": r'^\d{6}$',
                 "minlength": "6",
                 "maxlength": "6",
                 "placeholder": "123456",

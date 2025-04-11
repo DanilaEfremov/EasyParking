@@ -10,187 +10,197 @@
 
 {% block content %}
     <div class="flex flex-col">
-    <!-- Register card -->
+        <!-- Register card -->
 
-    <fieldset class="fieldset w-96 p-4 my-10 bg-base-100 border border-base-300 rounded-box mx-auto">
-        <p class="text-4xl font-bold">СОЗДАТЬ УЧЁТНУЮ ЗАПИСЬ</p>
-        <p>Зарегистрируйся как новый пользователь!</p>
-        <form method="post" action="{% url 'register' %}" class="mt-6 flex flex-col">
-            {% csrf_token %}
+        <fieldset class="fieldset w-96 p-4 my-10 bg-base-100 border border-base-300 rounded-box mx-auto">
+            <p class="text-4xl font-bold">СОЗДАТЬ УЧЁТНУЮ ЗАПИСЬ</p>
+            <p>Зарегистрируйся как новый пользователь!</p>
+            <form method="post" action="{% url 'register' %}" class="mt-6 flex flex-col">
+                {% csrf_token %}
 
-            <!-- Общие ошибки формы -->
-            {% if form.non_field_errors %}
-                <div class="text-error text-sm mb-4">
-                    {% for error in form.non_field_errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
+                <!-- Общие ошибки формы -->
+                {% if form.non_field_errors %}
+                    <div class="text-error text-sm mb-4">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Email -->
+                <legend class="fieldset-legend">Электронная почта</legend>
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </g>
+                    </svg>
+                    <input type="email"
+                           id="{{ form.email.id_for_label }}"
+                           name="{{ form.email.html_name }}"
+                           required
+                           placeholder="mail@site.ru"
+                           value="{{ form.email.value|default:'' }}"
+                           class="input w-full"
+                    />
+                </label>
+                <!-- Browser validation error message  -->
+                {#            У DaisyUI ошибка и класс hidden работает не так, как описано,             #}
+                {#            поэтому вместе с классом validator ставим has-[:user-invalid]:mb-0 -mb-6, #}
+                {#            что сдвигает validator-hint вверх, а если есть ошибка валидации, то       #}
+                {#            даёт место для описания ошибки.                                           #}
+                <div class="validator-hint hidden">
+                    Поле должно содержать адрес электронной почты.<br />
+                    Например: <span class="font-bold">username@domaim.ru</span>
                 </div>
-            {% endif %}
+                {% if form.email.errors %}
+                    <div class="text-error">{{ form.email.errors.0 }}</div>
+                {% endif %}
 
-            <!-- Email -->
-            <legend class="fieldset-legend">Электронная почта</legend>
-            <label class="input validator w-full has-[:user-invalid]:mb-0 -mb-6">
-                <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                    </g>
-                </svg>
-                <input type="email"
-                       id="{{ form.email.id_for_label }}"
-                       name="{{ form.email.html_name }}"
-                       required
-                       placeholder="mail@site.ru"
-                       value="{{ form.email.value|default:'' }}"
-                       class="input w-full"
-                />
-            </label>
-             <!-- Browser validation error message  -->
-{#            У DaisyUI ошибка и класс hidden работает не так, как описано,             #}
-{#            поэтому вместе с классом validator ставим has-[:user-invalid]:mb-0 -mb-6, #}
-{#            что сдвигает validator-hint вверх, а если есть ошибка валидации, то       #}
-{#            даёт место для описания ошибки.                                           #}
-            <div class="validator-hint">
-                Поле должно содержать адрес электронной почты.<br />
-                Например: <span class="font-bold">username@domaim.ru</span>
-            </div>
-            {% if form.email.errors %}
-                <div class="text-error">{{ form.email.errors.0 }}</div>
-            {% endif %}
+                <!-- Username -->
+                <legend class="fieldset-legend">Имя учётной записи</legend>
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </g>
+                    </svg>
+                    <input type="text"
+                           id="{{ form.username.id_for_label }}"
+                           name="{{ form.username.html_name }}"
+                           required
+                           placeholder="Login"
+                           minlength="3"
+                           maxlength="30"
+                           value="{{ form.username.value|default:'' }}"
+                           class="input w-full"
+                    />
+                </label>
+                <div class="validator-hint hidden">
+                    Идентификатор (имя) учётной записи должен содержать<br />
+                    от 3 до 30 символов и состоять только из букв, цифр<br />
+                    и подчёркиваний. Например: <span class="font-bold">klara_novikova</span>.
+                </div>
 
-            <!-- Username -->
-            <legend class="fieldset-legend">Имя учётной записи</legend>
-            <label class="input validator w-full has-[:user-invalid]:mb-0 -mb-10">
-                <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </g>
-                </svg>
+                {% if form.username.errors %}
+                    <div class="text-error">{{ form.username.errors.0 }}</div>
+                {% endif %}
+
+                <!-- Last Name -->
+                <legend class="fieldset-legend">Фамилия</legend>
                 <input type="text"
-                       id="{{ form.username.id_for_label }}"
-                       name="{{ form.username.html_name }}"
-                       required
-                       placeholder="Login"
-                       minlength="3"
-                       maxlength="30"
-                       value="{{ form.username.value|default:'' }}"
-                       class="input w-full"
+                       id="{{ form.last_name.id_for_label }}"
+                       name="{{ form.last_name.html_name }}"
+                       value="{{ form.last_name.value|default:'' }}"
+                       placeholder="Type here"
+                       class="input w-full mb-5"
                 />
-            </label>
-            <div class="validator-hint">
-                Идентификатор (имя) учётной записи должен содержать<br />
-                от 3 до 30 символов и состоять только из букв, цифр<br />
-                и подчёркиваний. Например: <span class="font-bold">klara_novikova</span>.
-            </div>
+                {% if form.last_name.errors %}
+                    <p class="validator-hint text-error text-sm">{{ form.last_name.errors|striptags }}</p>
+                {% endif %}
 
-            {% if form.username.errors %}
-                <div class="text-error">{{ form.username.errors.0 }}</div>
-            {% endif %}
-
-            <!-- Last Name -->
-            <legend class="fieldset-legend">Фамилия</legend>
-            <input type="text"
-                   id="{{ form.last_name.id_for_label }}"
-                   name="{{ form.last_name.html_name }}"
-                   value="{{ form.last_name.value|default:'' }}"
-                   placeholder="Type here"
-                   class="input w-full mb-5"
-            />
-            {% if form.last_name.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.last_name.errors|striptags }}</p>
-            {% endif %}
-
-            <!-- First Name -->
-            <legend class="fieldset-legend">Имя</legend>
-            <input type="text"
-                   id="{{ form.first_name.id_for_label }}"
-                   name="{{ form.first_name.html_name }}"
-                   value="{{ form.first_name.value|default:'' }}"
-                   placeholder="Type here"
-                   class="input w-full mb-5"
-            />
-            {% if form.first_name.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.first_name.errors|striptags }}</p>
-            {% endif %}
-
-            <!-- Middle Name -->
-            <legend class="fieldset-legend">Отчество</legend>
-            <input type="text"
-                   id="{{ form.middle_name.id_for_label }}"
-                   name="{{ form.middle_name.html_name }}"
-                   value="{{ form.middle_name.value|default:'' }}"
-                   placeholder="Type here"
-                   class="input w-full mb-5"
-            />
-            {% if form.middle_name.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.middle_name.errors|striptags }}</p>
-            {% endif %}
-
-            <!-- Birth Date -->
-            <legend class="fieldset-legend">Дата рождения</legend>
-            <input type="date"
-                   id="{{ form.birth_date.id_for_label }}"
-                   name="{{ form.birth_date.html_name }}"
-                   value="{{ form.birth_date.value|default:'' }}"
-                   class="input validator w-full mb-5"
-            />
-            {% if form.birth_date.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.birth_date.errors|striptags }}</p>
-            {% endif %}
-
-            <!-- Password -->
-            <legend class="fieldset-legend">Пароль</legend>
-            <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
-                <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
-                    </g>
-                </svg>
-                <input type="password"
-                       id="{{ form.password1.id_for_label }}"
-                       name="{{ form.password1.html_name }}"
-                       required
-                       placeholder="Password"
-                       class="input w-full"
+                <!-- First Name -->
+                <legend class="fieldset-legend">Имя</legend>
+                <input type="text"
+                       id="{{ form.first_name.id_for_label }}"
+                       name="{{ form.first_name.html_name }}"
+                       value="{{ form.first_name.value|default:'' }}"
+                       placeholder="Type here"
+                       class="input w-full mb-5"
                 />
-            </label>
-            {% if form.password1.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.password1.errors|striptags }}</p>
-            {% endif %}
+                {% if form.first_name.errors %}
+                    <p class="validator-hint text-error text-sm">{{ form.first_name.errors|striptags }}</p>
+                {% endif %}
 
-            <!-- Confirm Password -->
-            <legend class="fieldset-legend">Подтвердить пароль</legend>
-            <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
-                 <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
-                    </g>
-                </svg>
-                <input type="password"
-                       id="{{ form.password2.id_for_label }}"
-                       name="{{ form.password2.html_name }}"
-                       required
-                       placeholder="Confirm Password"
-                       class="input w-full"
+                <!-- Middle Name -->
+                <legend class="fieldset-legend">Отчество</legend>
+                <input type="text"
+                       id="{{ form.middle_name.id_for_label }}"
+                       name="{{ form.middle_name.html_name }}"
+                       value="{{ form.middle_name.value|default:'' }}"
+                       placeholder="Type here"
+                       class="input w-full mb-5"
                 />
-            </label>
-            {% if form.password2.errors %}
-                <p class="validator-hint text-error text-sm">{{ form.password2.errors|striptags }}</p>
-            {% endif %}
+                {% if form.middle_name.errors %}
+                    <p class="validator-hint text-error text-sm">{{ form.middle_name.errors|striptags }}</p>
+                {% endif %}
 
-            <!-- Submit Button -->
-            <button class="btn btn-primary mt-4" type="submit">СОЗДАТЬ УЧЁТНУЮ ЗАПИСЬ</button>
-        </form>
+                <!-- Birth Date -->
+                <legend class="fieldset-legend">Дата рождения</legend>
+                <input type="date"
+                       id="{{ form.birth_date.id_for_label }}"
+                       name="{{ form.birth_date.html_name }}"
+                       value="{{ form.birth_date.value|default:'' }}"
+                       class="input validator w-full mb-5"
+                />
+                {% if form.birth_date.errors %}
+                    <p class="validator-hint text-error text-sm">{{ form.birth_date.errors|striptags }}</p>
+                {% endif %}
 
-        <p class="text-center mt-4">
-            Уже есть аккаунт?
-            <a href="{% url 'login' %}" class="text-primary">Войти сейчас</a>
-        </p>
-    </fieldset>
-    <!-- /Register Card -->
-</div>
+                <!-- Password -->
+                <legend class="fieldset-legend">Пароль</legend>
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+                            <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                        </g>
+                    </svg>
+                    <input type="password"
+                           id="{{ form.password1.id_for_label }}"
+                           name="{{ form.password1.html_name }}"
+                           required
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                           placeholder="Password"
+                           class="input w-full"
+                    />
+                </label>
+                <div class="validator-hint hidden">
+                    Пароль должен содержать минимум 8 символов,<br />
+                    минимум одну заглавную букву и цифры
+                </div>
+                {% if form.password1.errors %}
+                    <p class="text-error text-sm">Пароль должен содержать минимум 8 букв, минимум одну заглавную и цифры</p>
+                {% endif %}
+
+                <!-- Confirm Password -->
+                <legend class="fieldset-legend">Подтвердить пароль</legend>
+                <label class="input validator w-full has-[:user-invalid]:mb-0 mb-5">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+                            <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+                            <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                        </g>
+                    </svg>
+                    <input type="password"
+                           id="{{ form.password2.id_for_label }}"
+                           name="{{ form.password2.html_name }}"
+                           required
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                           placeholder="Confirm Password"
+                           class="input w-full"
+                    />
+                </label>
+                <div class="validator-hint hidden">
+                    Пароль должен содержать минимум 8 символов,<br />
+                    минимум одну заглавную букву и цифры
+                </div>
+                {% if form.password2.errors %}
+                    <p class="text-error text-sm">{{ form.password2.errors|striptags }}</p>
+                {% endif %}
+
+                <!-- Submit Button -->
+                <button class="btn btn-primary mt-4" type="submit">СОЗДАТЬ УЧЁТНУЮ ЗАПИСЬ</button>
+            </form>
+
+            <p class="text-center mt-4">
+                Уже есть аккаунт?
+                <a href="{% url 'login' %}" class="text-primary">Войти сейчас</a>
+            </p>
+        </fieldset>
+        <!-- /Register Card -->
+    </div>
 
 {% endblock content %}

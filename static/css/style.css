@@ -14,14 +14,11 @@
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-neutral-100: oklch(97% 0 0);
     --color-neutral-500: oklch(55.6% 0 0);
     --color-black: #000;
-    --color-white: #fff;
     --spacing: 0.25rem;
     --container-3xs: 16rem;
-    --container-xs: 20rem;
     --container-2xl: 42rem;
     --container-7xl: 80rem;
     --text-xs: 0.75rem;
@@ -2225,17 +2222,8 @@
     opacity: 60%;
     font-weight: 600;
   }
-  .-mb-6 {
-    margin-bottom: calc(var(--spacing) * -6);
-  }
-  .-mb-10 {
-    margin-bottom: calc(var(--spacing) * -10);
-  }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
-  }
-  .mb-3 {
-    margin-bottom: calc(var(--spacing) * 3);
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
@@ -3071,6 +3059,9 @@
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
+  .p-7 {
+    padding: calc(var(--spacing) * 7);
+  }
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
@@ -3433,6 +3424,16 @@
   .btn-warning {
     --btn-color: var(--color-warning);
     --btn-fg: var(--color-warning-content);
+  }
+  .input-warning {
+    &, &:focus, &:focus-within {
+      --input-color: var(--color-warning);
+    }
+  }
+  .textarea-warning {
+    &, &:focus, &:focus-within {
+      --input-color: var(--color-warning);
+    }
   }
   .hover\:bg-neutral-100 {
     &:hover {

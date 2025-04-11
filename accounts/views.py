@@ -102,7 +102,7 @@ def account_password_change(request):
 
 
 @login_required
-def account_adress_change(request):
+def account_address_change(request):
      """Страница с изменением адреса."""
      total, count = calculate_cart_total(request)
      user = request.user.profile
@@ -119,4 +119,4 @@ def account_adress_change(request):
          'delivery_price': 0,
          'form': form,
      }
-     return render(request, 'accounts/account_adress_change.html', context=context)
+     return render(request, 'accounts/account_address_change.html', context=context)

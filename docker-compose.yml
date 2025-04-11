@@ -6,11 +6,21 @@ services:
       args:
         BUILD_MOD: ${BUILD}
         APP_ROOT: /app
+        DJANGO_USER: ${D_USER}
+        DJANGO_GROUP: ${D_GROUP}
+        DJANGO_USER_ID: ${D_UID}
+        DJANGO_GROUP_ID: ${D_GID}
     container_name: web
+#    user: "1000:1001" # set a specific user id so the container can write in the data dir
     volumes:
 #      - .:/app
       - static:/app/static
-      - ./logs:/app/logs
+      - logs:/app/logs
+#      - type: volume
+#        source: logs
+#        target: /app/logs/
+#        volume:
+#          subpath: web
     expose:
       - "8000"
     depends_on:
@@ -160,6 +170,8 @@ services:
     container_name: flower
     hostname: flower
     command: celery -A a_core flower --port=5555
+#    environment:
+#      - FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH}
     depends_on:
       - rabbitmq
       - celery
@@ -186,8 +198,6 @@ services:
     stdin_open: true
 
 
-
-
   angie:
     container_name: http
     hostname: http
@@ -195,7 +205,7 @@ services:
     image: docker.angie.software/angie:latest
     volumes:
       - ./app_conf/angie/angie.conf:/etc/angie/angie.conf:ro
-#      - ./htpasswd:/etc/angie/.htpasswd
+      - ./app_conf/angie/.htpasswd:/etc/angie/.htpasswd:ro
       - static:/usr/share/angie/static
     post_start:
       - command: [ "sh", "-c", "chown angie /usr/share/angie/static && chmod -R 755 /usr/share/angie/static" ]
@@ -208,15 +218,15 @@ services:
       - rabbitmq
       - pgadmin
       - minio
-    labels:
-      - dev.orbstack.domains=easyparking.local
+#    labels:
+#      - dev.orbstack.domains=easyparking.local
 
 
 volumes:
   postgres_data:
   pgadmin-data:
   static:
-#  media:
+  logs:
   minio_data:
   rabbitmq_data:
   redis_data:

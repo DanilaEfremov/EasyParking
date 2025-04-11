@@ -125,19 +125,23 @@ class AddressUpdateForm(forms.ModelForm):
         fields = ['country', 'city', 'zip_code', 'address']
         widgets = {
             'country': forms.TextInput(attrs={
-                'class': 'w-full border px-4 py-2 lg:w-1/2',
+                'class': 'input input-warning rounded-none w-full px-4 py-2 lg:w-1/2',
                 'placeholder': 'Россия'
             }),
             'city': forms.TextInput(attrs={
-                'class': 'w-full border px-4 py-2 lg:w-1/2',
+                'class': 'input input-warning rounded-none w-full px-4 py-2 lg:w-1/2',
                 'placeholder': 'Москва'
             }),
             'zip_code': forms.TextInput(attrs={
-                'class': 'w-full border px-4 py-2 lg:w-1/2',
+                'class': 'input input-warning validator rounded-none w-full px-4 py-2 lg:w-1/2',
+                "pattern": r'^\d{6}$',
+                "minlength": "6",
+                "maxlength": "6",
+                "title": "Должно быть шесть цифр без пробелов",
                 'placeholder': '115191'
             }),
             'address': forms.Textarea(attrs={
-                'class': 'w-full border px-4 py-2 lg:w-1/2',
+                'class': 'textarea textarea-warning rounded-none w-full px-4 py-2 lg:w-1/2',
                 'cols': '30',
                 'rows': '5'
             }),
