@@ -99,21 +99,21 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         label="Ваш пароль",
         widget=forms.PasswordInput(attrs={
-            "class": "w-full border px-4 py-2 lg:w-1/2",
+            "class": "input w-full border px-4 py-2 lg:w-1/2",
             "placeholder": "",
         }),
     )
     new_password1 = forms.CharField(
         label="Новый пароль",
         widget=forms.PasswordInput(attrs={
-            "class": "w-full border px-4 py-2 lg:w-1/2",
+            "class": "input w-full border px-4 py-2 lg:w-1/2",
             "placeholder": "",
         }),
     )
     new_password2 = forms.CharField(
         label="Повторите новый пароль",
         widget=forms.PasswordInput(attrs={
-            "class": "w-full border px-4 py-2 lg:w-1/2",
+            "class": "input w-full border px-4 py-2 lg:w-1/2",
             "placeholder": "",
         }),
     )
@@ -125,15 +125,15 @@ class AddressUpdateForm(forms.ModelForm):
         fields = ['country', 'city', 'zip_code', 'address']
         widgets = {
             'country': forms.TextInput(attrs={
-                'class': 'input input-warning rounded-none w-full px-4 py-2 lg:w-1/2',
+                'class': 'input w-full border px-4 py-2 lg:w-1/2',
                 'placeholder': 'Россия'
             }),
             'city': forms.TextInput(attrs={
-                'class': 'input input-warning rounded-none w-full px-4 py-2 lg:w-1/2',
+                'class': 'input w-full vorder px-4 py-2 lg:w-1/2',
                 'placeholder': 'Москва'
             }),
             'zip_code': forms.TextInput(attrs={
-                'class': 'input input-warning validator rounded-none w-full px-4 py-2 lg:w-1/2',
+                'class': 'input validator border w-full px-4 py-2 lg:w-1/2',
                 "pattern": r'^\d{6}$',
                 "minlength": "6",
                 "maxlength": "6",
@@ -141,7 +141,7 @@ class AddressUpdateForm(forms.ModelForm):
                 'placeholder': '115191'
             }),
             'address': forms.Textarea(attrs={
-                'class': 'textarea textarea-warning rounded-none w-full px-4 py-2 lg:w-1/2',
+                'class': 'textarea w-full border px-4 py-2 lg:w-1/2',
                 'cols': '30',
                 'rows': '5'
             }),

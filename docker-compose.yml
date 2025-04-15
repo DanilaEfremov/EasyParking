@@ -207,10 +207,13 @@ services:
       - ./app_conf/angie/angie.conf:/etc/angie/angie.conf:ro
       - ./app_conf/angie/.htpasswd:/etc/angie/.htpasswd:ro
       - static:/usr/share/angie/static
+      - ./app_conf/certbot/www:/var/www/certbot
+      - ./app_conf/certbot/conf:/etc/letsencrypt:ro
     post_start:
       - command: [ "sh", "-c", "chown angie /usr/share/angie/static && chmod -R 755 /usr/share/angie/static" ]
     ports:
       - "80:80"
+      - "443:443"
 #      - "8080:8080"
     depends_on:
       - web
@@ -220,6 +223,13 @@ services:
       - minio
 #    labels:
 #      - dev.orbstack.domains=easyparking.local
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./app_conf/certbot/www:/var/www/certbot
+      - ./app_conf/certbot/conf:/etc/letsencrypt
 
 
 volumes:

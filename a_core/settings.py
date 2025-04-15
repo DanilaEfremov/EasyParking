@@ -40,6 +40,18 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 # ]
 
 
+# Разрешить заголовки от прокси
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Если ты включаешь secure cookie
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = ["https://easyparking.shop", "https://www.easyparking.shop"]
+
+
+
 USE_THOUSAND_SEPARATOR = True
 
 
