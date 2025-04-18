@@ -6,7 +6,11 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         {% for item in page_obj %}
             <c-news.card_short :article="item"/>
-        {% endfor %}
+       {% empty %}
+    	    <div class="col-span-full flex justify-center items-center min-h-[200px]">
+                <p class="text-xl font-semibold text-base-content/80">Ждите обновлений!</p>
+           </div>
+      {% endfor %}
     </div>
 
     <section class="pagination flex justify-center" hx-target="#page_news" hx-boost="true" hx-swap="outerHTML">
