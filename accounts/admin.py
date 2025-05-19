@@ -1,4 +1,4 @@
-# from django.contrib import admin
+# from django.contrib import admin  # noqa: D100, EXE002
 #
 # from .models import CustomUser
 #
@@ -7,11 +7,13 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
 from .models import CustomUser, Profile
 
 
 class ProfileInline(admin.StackedInline):
     """Позволяет редактировать профиль пользователя в админке."""
+
     model = Profile
     can_delete = False
     verbose_name_plural = "Профиль"
@@ -19,6 +21,7 @@ class ProfileInline(admin.StackedInline):
 
 class CustomUserAdmin(UserAdmin):
     """Кастомное отображение модели CustomUser в админке."""
+
     model = CustomUser
     list_display = ("username", "email", "first_name", "last_name", "is_staff", "is_active")
     search_fields = ("username", "email", "first_name", "last_name")

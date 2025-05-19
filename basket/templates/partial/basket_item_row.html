@@ -1,0 +1,17 @@
+{% if row_update %}
+     <c-item :item = "cart_item" do_delete />
+{% endif %}
+
+ <c-summary-total :total = "total" :delivery = "delivery_price" show_button/>
+
+<span id="cart-button-badge" class="badge badge-sm indicator-item" hx-swap-oob="true" hx-swap="outerHTML">
+    {{ items_count }}
+</span>
+
+<c-navbar.dropdown.stat_window :items_count="items_count" :total_price="total" :delivery = "delivery_price" hx-swap-oob="true" />
+
+ {% if messages %}
+    <section hx-swap-oob="beforeend:#messages">
+        {% include 'partials/messages.html' %}
+    </section>
+ {%  endif %}

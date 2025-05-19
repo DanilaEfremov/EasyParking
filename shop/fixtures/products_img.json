@@ -1,0 +1,12 @@
+[
+  {"model": "shop.productimage", "pk": 1, "fields": {"product": 1, "image": "products/additional/pump_2.webp"}},
+  {"model": "shop.productimage", "pk": 2, "fields": {"product": 1, "image": "products/additional/pump_3.webp"}},
+  {"model": "shop.productimage", "pk": 3, "fields": {"product": 2, "image": "products/additional/pillow_2.webp"}},
+  {"model": "shop.productimage", "pk": 4, "fields": {"product": 2, "image": "products/additional/pillow_3.webp"}},
+  {"model": "shop.productimage", "pk": 5, "fields": {"product": 2, "image": "products/additional/pillow_4.webp"}},
+  {"model": "shop.productimage", "pk": 6, "fields": {"product": 3, "image": "products/additional/stool_2.webp"}},
+  {"model": "shop.productimage", "pk": 7, "fields": {"product": 3, "image": "products/additional/stool_3.webp"}},
+  {"model": "shop.productimage", "pk": 8, "fields": {"product": 3, "image": "products/additional/stool_4.webp"}},
+  {"model": "shop.productimage", "pk": 9, "fields": {"product": 3, "image": "products/additional/stool_5.webp"}},
+  {"model": "shop.productimage", "pk": 10, "fields": {"product": 3, "image": "products/additional/stool_6.webp"}}
+]

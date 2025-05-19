@@ -1,0 +1,11 @@
+{% for item in products %}
+    <c-product :product="item"/>
+{% empty %}
+    <p class="text-xl font-semibold text-base-content/80">
+        {% if query %}
+        К сожалению, такого товара на складе нет. Свяжитесь с нами по телефону, мы поможем Вам найти то, что нужно.
+        {% else %}
+        Ждём поступления товаров на склад. Оставайтесь на связи!
+        {% endif %}
+    </p>
+{% endfor %}

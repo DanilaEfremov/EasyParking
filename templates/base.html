@@ -40,8 +40,7 @@
     {% block head_scripts %}{% endblock head_scripts %}
 </head>
 
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-ext="morph">
-
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-ext="morph" class="flex flex-col h-screen">
     {#  For Django Debug Toolbar #}
     {% if debug %}
     if (typeof window.htmx !== "undefined") {
@@ -67,13 +66,15 @@
     {% block header %}{% endblock header %}
     <!-- /Header -->
     <!-- Main -->
-    <main>
+    <main class="flex-grow">
         {% block content %}{% endblock content %}
     </main>
     <!-- /Main -->
     <!-- Footer -->
     {% cache 500 cache_footer %}
-    {% block footer %}<c-footer />{% endblock footer %}
+    {% block footer %}
+        <c-footer/>
+    {% endblock footer %}
     {% endcache %}
     <!-- /Footer -->
 </body>

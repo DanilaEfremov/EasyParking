@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+
+{% block title %}Корзина{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+    <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    <section class="container mx-auto flex-grow max-w-[1200px] border-b mb-5 py-5 lg:flex lg:flex-row lg:py-10">
+        {% if cart_items|length > 0 %}
+            <section id="cart_detail" class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th class="text-right">Итого</th>
+                        <th><!-- Actions --></th>
+                    </tr>
+                    </thead>
+                    <!-- table body -->
+                    <tbody>
+                    <!-- table rows -->
+                    {% for item in cart_items %}
+                        <tr id="{{ item.id }}">
+                            <c-item :item = "item" do_delete />
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <!-- table footer -->
+                    <tfoot>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th class="text-right">Итого</th>
+                        <th><!-- Actions --></th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </section>
+            <section id="cart_summary" class="mx-auto w-full px-4 md:max-w-[400px]">
+                <div class="border py-5 px-4 shadow-md">
+                    <p class="font-bold">Сумма заказа</p>
+                    <c-summary-total :total = "total" :delivery = "delivery_price" show_button/>
+                </div>
+            </section>
+        {% else %}
+            {% include 'partial/cart_items_not_found.html' %}
+        {% endif %}
+    </section>
+{% endblock %}

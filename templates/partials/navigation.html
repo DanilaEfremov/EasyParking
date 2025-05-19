@@ -2,7 +2,7 @@
     <p>Привет, {{ user.first_name }}!</p> |
     <a href="{% url 'account' %}">Мой аккаунт</a>
     <a href="{% url 'logout' %}">Выйти</a>
-    <a href="{% url 'cart' %}">Моя корзина</a>
+    <a href="{% url 'basket-list' %}">Моя корзина</a>
 {% else %}
     <a href="{% url 'login' %}">Войти</a>
     <a href="{% url 'register' %}">Регистрация</a>

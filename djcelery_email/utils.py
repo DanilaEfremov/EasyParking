@@ -1,18 +1,17 @@
+import base64  # noqa: D100, EXE002
 import copy
-import base64
 from email.mime.base import MIMEBase
 
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 
 
-def chunked(iterator, chunksize):
-    """
-    Yields items from 'iterator' in chunks of size 'chunksize'.
+def chunked(iterator, chunksize):  # noqa: ANN001, ANN201
+    """Yields items from 'iterator' in chunks of size 'chunksize'.
 
     >>> list(chunked([1, 2, 3, 4, 5], chunksize=2))
     [(1, 2), (3, 4), (5,)]
-    """
+    """  # noqa: D401
     chunk = []
     for idx, item in enumerate(iterator, 1):
         chunk.append(item)
@@ -23,23 +22,23 @@ def chunked(iterator, chunksize):
         yield chunk
 
 
-def email_to_dict(message):
+def email_to_dict(message):  # noqa: ANN201, ANN001, C901, D103
     if isinstance(message, dict):
         return message
 
-    message_dict = {'subject': message.subject,
-                    'body': message.body,
-                    'from_email': message.from_email,
-                    'to': message.to,
-                    'bcc': message.bcc,
+    message_dict = {"subject": message.subject,
+                    "body": message.body,
+                    "from_email": message.from_email,
+                    "to": message.to,
+                    "bcc": message.bcc,
                     # ignore connection
-                    'attachments': [],
-                    'headers': message.extra_headers,
-                    'cc': message.cc,
-                    'reply_to': message.reply_to}
+                    "attachments": [],
+                    "headers": message.extra_headers,
+                    "cc": message.cc,
+                    "reply_to": message.reply_to}
 
-    if hasattr(message, 'alternatives'):
-        message_dict['alternatives'] = message.alternatives
+    if hasattr(message, "alternatives"):
+        message_dict["alternatives"] = message.alternatives
     if message.content_subtype != EmailMessage.content_subtype:
         message_dict["content_subtype"] = message.content_subtype
     if message.mixed_subtype != EmailMessage.mixed_subtype:
@@ -48,7 +47,7 @@ def email_to_dict(message):
     attachments = message.attachments
     for attachment in attachments:
         if isinstance(attachment, MIMEBase):
-            filename = attachment.get_filename('')
+            filename = attachment.get_filename("")
             binary_contents = attachment.get_payload(decode=True)
             mimetype = attachment.get_content_type()
         else:
@@ -56,8 +55,8 @@ def email_to_dict(message):
             # For a mimetype starting with text/, content is expected to be a string.
             if isinstance(binary_contents, str):
                 binary_contents = binary_contents.encode()
-        contents = base64.b64encode(binary_contents).decode('ascii')
-        message_dict['attachments'].append((filename, contents, mimetype))
+        contents = base64.b64encode(binary_contents).decode("ascii")
+        message_dict["attachments"].append((filename, contents, mimetype))
 
     if settings.CELERY_EMAIL_MESSAGE_EXTRA_ATTRIBUTES:
         for attr in settings.CELERY_EMAIL_MESSAGE_EXTRA_ATTRIBUTES:
@@ -67,12 +66,12 @@ def email_to_dict(message):
     return message_dict
 
 
-def dict_to_email(messagedict):
+def dict_to_email(messagedict):  # noqa: ANN001, ANN201, D103
     message_kwargs = copy.deepcopy(messagedict)  # prevents missing items on retry
 
     # remove items from message_kwargs until only valid EmailMessage/EmailMultiAlternatives kwargs are left
     # and save the removed items to be used as EmailMessage/EmailMultiAlternatives attributes later
-    message_attributes = ['content_subtype', 'mixed_subtype']
+    message_attributes = ["content_subtype", "mixed_subtype"]
     if settings.CELERY_EMAIL_MESSAGE_EXTRA_ATTRIBUTES:
         message_attributes.extend(settings.CELERY_EMAIL_MESSAGE_EXTRA_ATTRIBUTES)
     attributes_to_copy = {}
@@ -81,19 +80,19 @@ def dict_to_email(messagedict):
             attributes_to_copy[attr] = message_kwargs.pop(attr)
 
     # remove attachments from message_kwargs then reinsert after base64 decoding
-    attachments = message_kwargs.pop('attachments')
-    message_kwargs['attachments'] = []
+    attachments = message_kwargs.pop("attachments")
+    message_kwargs["attachments"] = []
     for attachment in attachments:
         filename, contents, mimetype = attachment
-        contents = base64.b64decode(contents.encode('ascii'))
+        contents = base64.b64decode(contents.encode("ascii"))
 
         # For a mimetype starting with text/, content is expected to be a string.
-        if mimetype and mimetype.startswith('text/'):
+        if mimetype and mimetype.startswith("text/"):
             contents = contents.decode()
 
-        message_kwargs['attachments'].append((filename, contents, mimetype))
+        message_kwargs["attachments"].append((filename, contents, mimetype))
 
-    if 'alternatives' in message_kwargs:
+    if "alternatives" in message_kwargs:
         message = EmailMultiAlternatives(**message_kwargs)
     else:
         message = EmailMessage(**message_kwargs)

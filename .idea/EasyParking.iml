@@ -15,10 +15,6 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
-      <excludeFolder url="file://$MODULE_DIR$/.venv/bin" />
-      <excludeFolder url="file://$MODULE_DIR$/.venv/include" />
-      <excludeFolder url="file://$MODULE_DIR$/.venv/lib" />
-      <excludeFolder url="file://$MODULE_DIR$/celerybeat-schedule" />
     </content>
     <orderEntry type="jdk" jdkName="uv (EasyParking)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -32,6 +28,14 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/home/templates" />
+        <option value="$MODULE_DIR$/contacts/templates" />
+        <option value="$MODULE_DIR$/about/templates" />
+        <option value="$MODULE_DIR$/news/templates" />
+        <option value="$MODULE_DIR$/cart/templates" />
+        <option value="$MODULE_DIR$/shop/templates" />
+        <option value="$MODULE_DIR$/order/templates" />
+        <option value="$MODULE_DIR$/accounts/templates" />
       </list>
     </option>
   </component>

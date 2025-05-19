@@ -2,7 +2,6 @@
 
 #python manage.py migrate;
 python manage.py collectstatic --noinput;
-#python manage.py runserver 0.0.0.0:8000;
 
-gunicorn --workers 3 --bind 0.0.0.0:8000 a_core.wsgi:application
-# gunicorn -w 2 -b 0:8000 web_app.wsgi:application;
+#gunicorn --workers 3 --bind 0.0.0.0:8000 a_core.wsgi:application
+granian a_core.wsgi:application --host 0.0.0.0 --port 8000 --interface wsgi --workers 3 --no-ws --backlog 128

@@ -1,7 +1,6 @@
+from celery import shared_task
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
-
-from celery import shared_task
 
 # Make sure our AppConf is loaded properly.
 import djcelery_email.conf  # noqa
@@ -11,17 +10,17 @@ from djcelery_email.utils import dict_to_email, email_to_dict
 # This is because we expect Celery to use JSON encoding, and we want to prevent
 # code assuming otherwise.
 
-TASK_CONFIG = {'name': 'Отправка почтовых сообщений', 'ignore_result': True}
+TASK_CONFIG = {"name": "Отправка почтовых сообщений", "ignore_result": True}
 TASK_CONFIG.update(settings.CELERY_EMAIL_TASK_CONFIG)
 
 # import base if string to allow a base celery task
-if 'base' in TASK_CONFIG and isinstance(TASK_CONFIG['base'], str):
+if "base" in TASK_CONFIG and isinstance(TASK_CONFIG["base"], str):
     from django.utils.module_loading import import_string
-    TASK_CONFIG['base'] = import_string(TASK_CONFIG['base'])
+    TASK_CONFIG["base"] = import_string(TASK_CONFIG["base"])
 
 
 @shared_task(**TASK_CONFIG)
-def send_emails(messages, backend_kwargs=None, **kwargs):
+def send_emails(messages, backend_kwargs=None, **kwargs):  # noqa: ANN001, ANN003, ANN201, D103
     # backward compat: handle **kwargs and missing backend_kwargs
     combined_kwargs = {}
     if backend_kwargs is not None:
@@ -48,12 +47,12 @@ def send_emails(messages, backend_kwargs=None, **kwargs):
             sent = conn.send_messages([dict_to_email(message)])
             if sent is not None:
                 messages_sent += sent
-            logger.debug("Successfully sent email message to %r.", message['to'])
+            logger.debug("Successfully sent email message to %r.", message["to"])
         except Exception as e:
             # Not expecting any specific kind of exception here because it
             # could be any number of things, depending on the backend
             logger.warning("Failed to send email message to %r, retrying. (%r)",
-                           message['to'], e)
+                           message["to"], e)
             send_emails.retry([[message], combined_kwargs], exc=e, throw=False)
 
     conn.close()

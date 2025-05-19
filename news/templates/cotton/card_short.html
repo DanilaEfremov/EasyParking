@@ -1,0 +1,23 @@
+{% load static %}
+
+<div class="border border-base-300 bg-base-100 shadow-lg rounded-2xl overflow-hidden">
+    <figure>
+        <img src="{{ article.image.url }}"
+             alt="{{ article.name }}"
+             class="w-full aspect-3/2 object-cover rounded-t-2xl"
+             onerror="this.onerror=null; this.src='{% static 'img/stub/news.webp' %}';"
+        >
+    </figure>
+    <section class="flex flex-col min-h-64 p-4">
+        <section class="flex-grow">
+            <h2 class="text-xl font-semibold text-base-content/80">{{ article.name }}</h2>
+            {% autoescape off %}
+            <p class="mt-2 text-base-content/60">{{ article.short_content }}</p>
+            {% endautoescape %}
+        </section>
+        <footer class="flex mt-4 justify-between items-center">
+            <span class="text-sm text-base-content/40">{{ article.created_at|date:"d.m.Y" }}</span>
+            <a href="{% url 'news-detail' article.id %}" class="btn btn-primary tn-sm">Подробнее</a>
+        </footer>
+    </section>
+</div>

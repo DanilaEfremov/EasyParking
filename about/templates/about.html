@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+
+{% block title %}О нас{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+        <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    {% cache 1000 content_about %}
+        {#  Hero  #}
+        <div class="hero bg-base-200 min-h-[400px]">
+            <div class="hero-content text-center">
+                <div class="max-w-[600px]">
+                    <h1 class="text-5xl font-bold my-5">О компании</h1>
+                    <div class="text" style="line-height: 36px;">
+                        ООО «ИЗИ-ПАРКИНГ» - команда из единомышленников, которая ежедневно работает над проектом
+                        и помогает пользователям сервиса не волноваться, что парковочная сессия не будет
+                        запущена, а его автомобиль будет эвакуирован, за счёт интегрирования блока телематики в авто.
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#     Контент   #}
+        <section class="flex-grow">
+
+            <div class="w-full bg-base-100 py-12 lg:py-16 px-6">
+                <div class="flex flex-col lg:flex-row items-center space-y-12 lg:space-y-0 lg:space-x-12 max-w-7xl mx-auto">
+                    <div class="text-left max-w-2xl">
+                        <p class="text-xl leading-relaxed">
+                            "Easy-Parking" представляет собой сервис, который обеспечивает автоматизированное
+                            взаимодействие между ЦОДД и пользователем. Устанавливая блок телематики, который
+                            передает информацию о местоположении автомобиля, в момент нахождения его в зоне действия
+                            платного паркинга, пользователю не нужно волноваться о том, запустили ли они парковочную
+                            сессию или нет. Клиент нашего сервиса просто паркует свой автомобиль в зоне действия
+                            муниципального платного паркинга и уходит, а процесс открытия и закрытия парковочной
+                            сессии за него выполняет автоматика.
+                        </p>
+                    </div>
+                    <div class="w-3/4 lg:w-1/3 flex justify-center mx-auto">
+                        <img src="{% static 'about/img/about_phone.webp' %}"
+                             alt="Мобильный паркомат"
+                             class="block rounded-lg w-full h-auto lg:h-[500px] object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full p-8">
+                <div class="flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8 max-w-7xl mx-auto">
+                    <div class="w-full lg:w-3/4 flex justify-center">
+                        <img src="{% static 'about/img/about_light.png' %}"
+                             alt="Паркоматика Дашборд"
+                             class="block dark:hidden rounded-lg w-full h-auto object-cover">
+
+                        <img src="{% static 'about/img/about_dark.png' %}"
+                             class="hidden dark:block rounded-lg w-full h-auto object-cover"
+                             alt="Тёмная тема">
+                    </div>
+                    <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
+                        <div class="card w-full lg:w-[500px] bg-primary text-primary-content rounded-3xl self-stretch">
+                            <div class="card-body p-6">
+                                <h2 class="card-title text-2xl font-bold">Основные конкурентные преимущества</h2>
+                                <p class="text-lg">- Наша разработка не требует подключения к диагностическим разъёмам автомобиля.</p>
+                                <p class="text-lg">- Вся отчётная документация сохраняется в личном кабинете пользователя.</p>
+                                <p class="text-lg">- Мы оптимизированнее (до 20%) за счёт использования отечественных разработок и аппаратной базы.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    {% endcache %}
+{% endblock content %}
+
+
+
+
+

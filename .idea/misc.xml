@@ -3,5 +3,8 @@
   <component name="Black">
     <option name="sdkName" value="uv (EasyParking)" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="uv (EasyParking)" project-jdk-type="Python SDK" />
 </project>

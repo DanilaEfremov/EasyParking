@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+{% block title %}Новости{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+        <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    {% include 'partial/news.html' %}
+{% endblock content %}

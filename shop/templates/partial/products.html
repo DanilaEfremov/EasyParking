@@ -1,0 +1,50 @@
+{% load static %}
+
+
+<div id="page_items">
+    <section class="mx-auto grid max-w-[1200px] grid-cols-2 gap-4 mt-4 px-5 pb-5 lg:grid-cols-3">
+        <c-product.products :products="page_obj" :qyery="query"/>
+    </section>
+
+    <section class="pagination flex justify-center mb-10" hx-target="#page_items" hx-boost="true" hx-include="#sort_by, #order, #search_input" hx-swap="outerHTML">
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="join">
+                {% if page_obj.has_previous %}
+                    <div class="tooltip tooltip-left" data-tip="Первая страница">
+                        <a class="join-item btn px-1" href="?page=1&sort_by={{ sort_by }}&order={{ order }}{% if query %}&q={{ query }}{% endif %}">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 16-4-4 4-4m-6 8-4-4 4-4"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="tooltip" data-tip="Предыдущая страница">
+                        <a class="join-item btn px-1" href="?page={{ page_obj.previous_page_number }}&sort_by={{ sort_by }}&order={{ order }}{% if query %}&q={{ query }}{% endif %}">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 8-4 4 4 4"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
+
+                <button class="join-item btn">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</button>
+
+                {% if page_obj.has_next %}
+                    <div class="tooltip" data-tip="Следующая страница">
+                        <a class="join-item btn px-1" href="?page={{ page_obj.next_page_number }}&sort_by={{ sort_by }}&order={{ order }}{% if query %}&q={{ query }}{% endif %}">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="tooltip tooltip-right" data-tip="Последняя страница">
+                        <a class="join-item btn px-1" href="?page={{ page_obj.paginator.num_pages }}&sort_by={{ sort_by }}&order={{ order }}{% if query %}&q={{ query }}{% endif %}">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
+</div>

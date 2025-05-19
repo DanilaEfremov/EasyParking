@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load cache %}
+
+{% block title %}Главная{% endblock title %}
+
+
+{% block header %}
+    {% cache 500 header request.user items_count subtotal delivery_price %}
+        <c-header :items_count="items_count" :subtotal="subtotal" :delivery_price="delivery_price"/>
+    {% endcache %}
+{% endblock header %}
+
+
+{% block content %}
+    {% cache 500 content news %}
+    <c-hero image="{% static 'home/img/hero.webp' %}">
+        <h1 class="mb-5 text-4xl font-bold text-xl sm:text-2xl md:text-4xl lg:text-left">
+            Easy-Parking - сервис автоматизации платного паркинга
+        </h1>
+        <p class="mb-5 pt-3 text-xs lg:w-3/5 lg:pt-5 lg:text-left lg:text-base">
+            ‌Наша разработка направлена на решение проблемы постановки и снятия с платной парковки.
+            Автовладелец, установивший наш блок телематики в автомобиль может не волноваться,
+            что парковочная сессия не запущена и его транспортное средство будет эвакуировано на штраф-стоянку.
+        </p>
+        <a href="{% url 'products-list' %}" class="btn btn-warning lg:w-3/12 lg:px-10">К покупкам</a>
+    </c-hero>
+
+    <div class="container mx-auto p-6 mb-6">
+        {% if news|length > 0 %}
+            <h1 class="text-4xl font-bold text-left my-5">Последние новости:</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for item in news %}
+                    <c-card_short :article="item"/>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    {% endcache %}
+{% endblock content %}
+

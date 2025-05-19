@@ -1,0 +1,7 @@
+{% include 'partial/product_quantity.html' %}
+
+{% if messages %}
+    <section hx-swap-oob="beforeend:#messages" >
+        {% include 'partials/messages.html' %}
+    </section>
+{%  endif %}

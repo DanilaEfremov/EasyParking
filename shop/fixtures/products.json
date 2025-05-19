@@ -1,0 +1,5 @@
+[
+  {"model": "shop.product", "pk": 1, "fields": {"name": "Насос", "description": "Прекрасный насос большой мощности. Сосёт за копейки.", "image": "products/pump_1.webp", "price": "200000.00", "stock": 2, "show_in_catalog": true, "created_at": "2025-05-03T14:36:09.963Z"}},
+  {"model": "shop.product", "pk": 2, "fields": {"name": "Подушка", "description": "Очень удобная подушка для сна.", "image": "products/pillow_1.webp", "price": "1200.00", "stock": 10, "show_in_catalog": true, "created_at": "2025-05-03T14:38:28.530Z"}},
+  {"model": "shop.product", "pk": 3, "fields": {"name": "Табуретка", "description": "Прекрасная во всех смыслах табуретка.", "image": "products/stool_1.webp", "price": "1750.00", "stock": 5, "show_in_catalog": true, "created_at": "2025-05-03T14:40:18.054Z"}}
+]

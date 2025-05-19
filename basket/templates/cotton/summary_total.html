@@ -1,0 +1,22 @@
+<section id="cart_total" hx-swap-oob="true">
+    <div class="flex justify-between border-b py-5">
+        <p>Товары</p>
+        <p>₽{{ total | default:0 | floatformat:0 }}</p>
+    </div>
+    <div class="flex justify-between border-b py-5">
+        <p>Доставка</p>
+        <p>{% if delivery != 0 %}₽{{ delivery | floatformat:0 }}{% else %}Бесплатно{% endif %}</p>
+    </div>
+    <div class="flex justify-between py-5">
+        <p>Итого</p>
+        <p>₽{{ total | default:0 | add:delivery | floatformat:0 }}</p>
+    </div>
+
+    {% if show_button %}
+        {% if not total or total == 0 %}
+            <a class="btn btn-disabled w-full" href="{% url 'cart-checkout' %}">Перейти к оформлению</a>
+        {% else %}
+            <a class="btn btn-primary w-full" href="{% url 'cart-checkout' %}">Перейти к оформлению</a>
+        {% endif %}
+    {% endif %}
+</section>
