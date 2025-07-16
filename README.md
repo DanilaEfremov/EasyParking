@@ -52,4 +52,4 @@ docker compose exec web python manage.py createsuperuser
 
 
 ## Основной URL
-`http://localhost/`
+`https://easyparking.shop`
