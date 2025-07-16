@@ -50,6 +50,3 @@ docker compose exec web python manage.py createsuperuser
 Можно переходить по ссылке для просмотра сайта.
 ```
 
-
-## Основной URL
-`https://easyparking.shop`
