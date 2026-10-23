@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class News(models.Model):
@@ -12,7 +13,7 @@ class News(models.Model):
     name = models.CharField(max_length=255)
     text = models.TextField()
     image = models.ImageField(upload_to='news/')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
